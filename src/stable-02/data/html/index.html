@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link href="../css/font.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+<section class="bg-light py-3 py-md-5 d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 row-custom">
+                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                    <div class="card-body custom-padding p-3 p-md-4 p-xl-5">
+                        <div class="text-center logo-container"><a href="#!"> <img src="../img/company_logo.svg"
+                                                                                   alt="Company Logo" width="220"
+                                                                                   height="64"> </a></div>
+                        <h1 class="fs-6 fw-normal text-start network-setup-title">Network setup</h1>
+                        <form id="wifiForm">
+                            <div class="row gy-2 overflow-hidden">
+                                <div class="col-12">
+                                    <div class="mb-3 form-floating-custom"><input type="text"
+                                                                                  class="form-control form-control-custom"
+                                                                                  name="ssid" id="ssid"
+                                                                                  placeholder="Wifi name" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 password-container">
+                                    <div class="mb-3 form-floating-custom"><input type="password"
+                                                                                  class="form-control form-control-custom"
+                                                                                  name="password" id="password"
+                                                                                  placeholder="Password" required></div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid my-3 btn-bottom-padding">
+                                        <button class="btn btn-lg btn-custom connect-button-caption" type="submit">
+                                            CONNECT
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script> document.getElementById("wifiForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    // Prevent form submission
+    var ssid = document.getElementById("ssid").value;
+    var password = document.getElementById("password").value;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                alert("Wi-Fi connection settings saved successfully!");
+            } else {
+                alert("Failed to save Wi-Fi connection settings. Please try again.");
+            }
+        }
+    };
+    xhttp.open("GET", "/set-wifi-connection?ssid=" + encodeURIComponent(ssid) + "&password=" + encodeURIComponent(password), true);
+    xhttp.send();
+}); </script>
+</body>
+</html>
