@@ -1,0 +1,61 @@
+// MQTT topic for device status
+rfid/status/84:0D:8E:E6:20:E8
+----Sample message
+{"mac": "84:0D:8E:E6:20:E8", "status": "OFF"}
+{"mac": "84:0D:8E:E6:20:E8", "status": "ON"}
+
+// MQTT topic for MES package infomartion
+rfid/mes/84:0D:8E:E6:20:E8
+----Sample message
+{"corporationName":"PUNGKOOK SAIGON 2","corporationCode":"1002","userId":"22221198","role":"4511","macAddress":"84:0D:8E:E6:20:E8","mesKey":"M_TNF-2421_1_TNF1422RGL012002_02_07","opNum":"1","iotType":null,"remarks":"May trang trí pát nút (Hiền)","opName":"Stitching","opSerial":"113","moduleName":"Front ()","moduleId":"SUBTNF0000021","styleText":"TNF1422-W BOREALIS","buyerStyleText":"NF0A52SI-W BOREALIS-W BOREALIS","styleColorWays":"F24 54C TNF WHITE METAL","buyerPO":"1","lineName":"LINEA2.1","lineNo":"LINE02","factory":"P2A1","mxTarget":"400","urlImage":"http://203.113.151.204:8080/PKPDM/style/TNF/TNF1422/Images/TNF14221.png"}
+
+//API Endpoints
+----Get MQTT config----
+// Method GET
+http://tpm.pungkookvn.com/RFIotDevice/GetMqttConfig?macAddress=84:0D:8E:E6:20:E8
+// Add header keyCode with value PkerpVN2024*
+// Response
+{
+    "corporation": "1002",
+    "tcpServer": "125.234.135.55",
+    "port": "1883",
+    "username": "pk2",
+    "password": "abc123",
+    "mesAPIHost": "http://mespk2.pungkookvn.com:8888"
+}
+
+----Get RFID tags which are associated with MES package
+// Method GET
+http://mespk2.pungkookvn.com:8888/RFIotDevice/GetCardRegistration?mesKey=M_TNF-2421_1_TNF1422RGL012002_02_07
+// Add header keyCode with value PkerpVN2024*
+// Response
+{
+    "mesKey": "M_TNF-2421_1_TNF1422RGL012002_02_07",
+    "tagIds": [
+        "E200470E1F80682196410108",
+        "E200470DAA4068218EED010A",
+        "E200470DA7C068218EC50112",
+        "E200470DAA8068218EF1010E",
+        "E200470E2640682196AD010E"
+    ]
+}
+
+----Register RFID tags which are associated with MES package
+http://mespk2.pungkookvn.com:8888/RFIotDevice/PostCardRegistration
+// Method POST
+// Add header keyCode with value PkerpVN2024*, Content-Type with value application/xml
+// Response
+{
+    "mesKey": "M_LLB-1326_4_LLB1157RGL008001_01_01",
+    "tagIds": [
+        "01e47199-4439-4cdc-9b37-57431c5ca14b",
+        "bee93b92-eba4-4465-ae73-d8919ea39757",
+        "bee93b92-eba4-4465-ae73-d8919ea39758"
+    ]
+}
+
+----Get MES package image
+http://mespk2.pungkookvn.com:8888/mpmts/minimizeImage?url=http://203.113.151.204:8080/PKPDM/style/TNF/TNF1422/Images/TNF14221.png&width=70&height=70
+// Method GET
+//Response
+Stream of bytes (Array of image pixels)
